@@ -39,9 +39,10 @@ func (h *Handler) renderTemplate(w http.ResponseWriter, templateName string, dat
 }
 
 func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
-	data := PageData{
+	data := struct {
+		Title string
+	}{
 		Title: "My Reading List",
-		Books: []Book{},
 	}
 
 	h.renderTemplate(w, "index.html", data)
@@ -50,12 +51,18 @@ func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) Show(w http.ResponseWriter, r *http.Request) {
 	partialsDir := "partials"
 
+	data := struct {
+		Books []Book
+	}{
+		Books: bookList,
+	}
+
 	t := template.Must(template.ParseFiles(
 		filepath.Join("views", "list.html"),
 		filepath.Join("views", partialsDir, "book.html"),
 	))
 
-	err := t.ExecuteTemplate(w, "list", bookList)
+	err := t.ExecuteTemplate(w, "list", data)
 	if err != nil {
 		log.Println(err)
 	}
@@ -94,7 +101,11 @@ func (h *Handler) Details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	book := bookList[bookIndex]
+	data := struct {
+		Book Book
+	}{
+		Book: bookList[bookIndex],
+	}
 
 	partialsDir := "partials"
 
@@ -103,7 +114,7 @@ func (h *Handler) Details(w http.ResponseWriter, r *http.Request) {
 		filepath.Join("views", partialsDir, "book.html"),
 	))
 
-	err := t.ExecuteTemplate(w, "details", book)
+	err := t.ExecuteTemplate(w, "details", data)
 	if err != nil {
 		log.Println(err)
 	}
@@ -125,7 +136,11 @@ func (h *Handler) Edit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	book := bookList[bookIndex]
+	data := struct {
+		Book Book
+	}{
+		Book: bookList[bookIndex],
+	}
 
 	partialsDir := "partials"
 
@@ -134,7 +149,7 @@ func (h *Handler) Edit(w http.ResponseWriter, r *http.Request) {
 		filepath.Join("views", partialsDir, "book.html"),
 	))
 
-	err := t.ExecuteTemplate(w, "edit", book)
+	err := t.ExecuteTemplate(w, "edit", data)
 	if err != nil {
 		log.Println(err)
 	}

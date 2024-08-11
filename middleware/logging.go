@@ -11,9 +11,7 @@ type wrappedWriter struct {
 }
 
 func (w *wrappedWriter) WriteHeader(statusCode int) {
-	if statusCode != http.StatusOK && statusCode != http.StatusCreated {
-		w.ResponseWriter.WriteHeader(statusCode)
-	}
+	w.ResponseWriter.WriteHeader(statusCode)
 	w.statusCode = statusCode
 }
 
