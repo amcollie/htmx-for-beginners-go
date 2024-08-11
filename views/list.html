@@ -1,0 +1,7 @@
+{{ define "list" }}
+  <ul>
+    {{ range . }}
+      {{ template "book" . }}
+    {{ end }}
+  </ul>
+{{ end }}

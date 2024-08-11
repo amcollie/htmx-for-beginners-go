@@ -1,0 +1,19 @@
+{{ define "book" }}
+  <li data-id="{{ .ID}}">
+    <div
+      class="details"
+      hx-get="/books/edit/{{ .ID }}"
+      hx-target="closest li"
+    >
+      <h3>{{ .Title }}</h3>
+      <p>{{ .Author }}</p>
+    </div>
+    <button
+      hx-delete="/books/{{ .ID }}"
+      hx-target="closest li"
+      hx-swap="outerHTML"
+    >
+      Remove
+    </button>
+  </li>
+{{ end }}

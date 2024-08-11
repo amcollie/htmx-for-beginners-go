@@ -1,0 +1,23 @@
+{{ define "title" }}
+  {{ .Title }} 
+{{ end }}
+
+{{ define "content" }}
+  <header>
+    <h1>My Reading List</h1>
+  </header>
+
+  <main>
+
+    {{ template "search" . }}
+
+    <div class="book-list">
+      <button hx-get="/books" hx-target=".book-list">Show Books</button>
+    </div>
+
+    <div class="add-book-form">
+      <h2>What do you want to read?</h2>
+      {{ template "add" . }}
+    </div>
+  </main>
+{{ end }}
